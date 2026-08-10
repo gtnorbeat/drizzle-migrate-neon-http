@@ -13,7 +13,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "drizzle-migrate-neon-http": "./bin/migrate.mjs"
+    "drizzle-migrate-neon-http": "bin/migrate.mjs"
   },
   "files": [
     "bin",
