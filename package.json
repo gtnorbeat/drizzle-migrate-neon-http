@@ -1,0 +1,58 @@
+{
+  "name": "drizzle-migrate-neon-http",
+  "version": "0.1.0",
+  "description": "Run Drizzle SQL migrations on Neon's serverless HTTP driver — no multi-statement SQL, no local Postgres emulation, no night sweats.",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "types": "./src/index.d.mts",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./split-statements": "./src/split-statements.mjs",
+    "./errors": "./src/errors.mjs",
+    "./runner": "./src/migration-runner.mjs",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "drizzle-migrate-neon-http": "./bin/migrate.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "migrate": "node bin/migrate.mjs",
+    "test": "node --test",
+    "lint": "eslint bin src test --no-warn-ignored",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [
+    "drizzle",
+    "neon",
+    "postgres",
+    "serverless",
+    "migration",
+    "migrations",
+    "sql",
+    "http-driver",
+    "drizzle-orm",
+    "neondatabase"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@neondatabase/serverless": "^1.1.0",
+    "eslint": "^10.6.0",
+    "globals": "^17.9.0",
+    "vitepress": "^1.6.4"
+  }
+}
