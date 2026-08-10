@@ -33,6 +33,11 @@ export function parseOptions(argv) {
     else if (arg === "--url") opts.url = argv[argv.indexOf(arg) + 1] ?? opts.url;
   }
 
+  // Informational flags never need a connection string.
+  if (opts.help || opts.version) {
+    return opts;
+  }
+
   if (!opts.url) {
     throw new Error(
       "DATABASE_URL is required — set it as an env var or pass --url=postgresql://…",

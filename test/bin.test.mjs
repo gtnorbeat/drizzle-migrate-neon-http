@@ -14,9 +14,9 @@ const { version } = require("../package.json");
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BIN = join(__dirname, "..", "bin", "migrate.mjs");
 
-// --help/--version are handled after parseOptions() validates the URL, so a
-// placeholder DSN keeps the smoke test hermetic (no network, no env deps).
-const ENV = { ...process.env, DATABASE_URL: "postgresql://user:pass@placeholder/db" };
+// --help/--version short-circuit before URL validation, so no DATABASE_URL
+// (and no network) is needed — the smoke test is fully hermetic.
+const ENV = { ...process.env, DATABASE_URL: undefined };
 
 function runBin(...args) {
   return execFileSync(process.execPath, [BIN, ...args], {
