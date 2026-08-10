@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 import { neon } from "@neondatabase/serverless";
+import { createRequire } from "module";
 import { resolve } from "path";
 import { parseOptions } from "../src/options.mjs";
 import { runMigrations } from "../src/migration-runner.mjs";
-import { version } from "../package.json";
+
+// package.json is a JSON module: importing it directly requires an import
+// attribute ("with { type: 'json' }") on Node 20.10+/22.10+/24+, which breaks
+// on older supported runtimes. createRequire works on every Node >= 18.
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json");
 
 const HELP = `drizzle-migrate-neon-http — Drizzle migrations on Neon's HTTP driver
 
