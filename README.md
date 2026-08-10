@@ -63,4 +63,4 @@ Full docs live in the repo: [guide](https://gtnorbeat.github.io/drizzle-migrate-
 
 ## License
 
-MIT © [gaetano](https://github.com/gtnorbeat)
+MIT © [gtnorbeat](https://github.com/gtnorbeat)
