@@ -1,0 +1,34 @@
+name: E2E on Neon
+
+# Runs the real end-to-end test (script/e2e-neon.sh) on demand.
+# Mode A creates a dedicated Neon project, tests the package against it
+# and deletes the project afterwards — nothing else is touched.
+#
+# Required secrets:
+#   NEON_API_KEY   Neon API key (console.neon.tech → Settings → API keys)
+#   NEON_ORG_ID    Only for personal API keys; org-scoped keys infer it.
+#
+# To also run on every release tag, uncomment the push block below.
+
+on:
+  workflow_dispatch:
+  # push:
+  #   tags: ['v*']
+
+jobs:
+  e2e:
+    name: End-to-end on Neon
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Run script/e2e-neon.sh
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_ORG_ID: ${{ secrets.NEON_ORG_ID }}
+        run: script/e2e-neon.sh
