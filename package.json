@@ -1,6 +1,6 @@
 {
   "name": "drizzle-migrate-neon-http",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Run Drizzle SQL migrations on Neon's serverless HTTP driver — no multi-statement SQL, no local Postgres emulation, no night sweats.",
   "author": {
     "name": "astrocat86"
