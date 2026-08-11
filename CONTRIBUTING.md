@@ -11,6 +11,7 @@ small, tested and well-documented are very welcome.
 - [Development setup](#development-setup)
 - [Project conventions](#project-conventions)
 - [Branching](#branching)
+- [Contributors](#contributors)
 - [Reporting issues](#reporting-issues)
 - [Submitting a pull request](#submitting-a-pull-request)
 - [Testing](#testing)
@@ -64,6 +65,23 @@ Docs live on the separate [`docs` branch](#documentation) — see below.
   Never push work-in-progress straight to `main`.
 - **`docs`** — the VitePress site. Documentation changes go here
   (see [Documentation](#documentation)).
+
+> The `agent/*` / `main` / `docs` layout is the **maintainer's** workflow.
+> External contributors don't need any of it — see
+> [Contributors](#contributors).
+
+## Contributors
+
+Contributors **don't need branches, clones or the `agent/*` workflow** —
+that's the maintainer's. To add yourself to the
+[contributors list](CONTRIBUTORS.md):
+
+1. Open a pull request that touches **only** `CONTRIBUTORS.md` — add your
+   username keeping the list alphabetical. You can do it straight from the
+   GitHub web editor, no local setup needed.
+2. Or mention it in an issue/PR and the maintainer will add you.
+
+That's it — no branching convention, no tests, no local setup.
 
 ## Reporting issues
 
