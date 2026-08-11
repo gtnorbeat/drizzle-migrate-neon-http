@@ -35,6 +35,8 @@
   "scripts": {
     "migrate": "node bin/migrate.mjs",
     "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "test:coverage:ci": "node --test --experimental-test-coverage --test-coverage-include='src/**' --test-coverage-lines=95 --test-coverage-branches=90 --test-coverage-functions=95",
     "lint": "eslint bin src test --no-warn-ignored"
   },
   "keywords": [
