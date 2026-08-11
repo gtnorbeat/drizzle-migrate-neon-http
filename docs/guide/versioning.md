@@ -49,3 +49,12 @@ You can always check the current version with:
 ```bash
 npm view drizzle-migrate-neon-http version
 ```
+
+## For contributors
+
+The full release policy — what requires a version bump, how to choose between
+patch/minor/major, and the tag workflow — is documented for maintainers in the
+[Releasing section of CONTRIBUTING.md](https://github.com/gtnorbeat/drizzle-migrate-neon-http/blob/main/CONTRIBUTING.md#releasing).
+A release gate in CI also validates every tag automatically (SemVer + match
+with `package.json` + coherent bump), so a malformed release never reaches
+npm.
