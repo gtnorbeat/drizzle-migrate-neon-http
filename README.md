@@ -13,6 +13,12 @@
 
 ---
 
+**📚 Full documentation:**
+[gtnorbeat.github.io/drizzle-migrate-neon-http](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
+— getting started, CLI reference and API docs.
+
+---
+
 ## Why does this exist?
 
 [`@neondatabase/serverless`](https://github.com/neondatabase/serverless) **v1+ only works as a
@@ -38,6 +44,17 @@ falling back to the very thing serverless Postgres is supposed to remove.
 - Skips idempotent `object already exists` errors so partially-applied states heal
 - Records applied files by SHA-256 in `drizzle.__drizzle_migrations`
 - Ships a CLI (`--dry-run`, `--dir`) and an importable runner API
+
+## Requirements
+
+- **Node.js >= 18**
+- A Drizzle migrations folder, generated with
+  [`drizzle-kit generate`](https://orm.drizzle.team/docs/migrations) — the runner
+  reads `meta/_journal.json` and the `NNNN_*.sql` files inside the folder
+- A Neon (or Postgres-compatible) connection string, via the `DATABASE_URL`
+  environment variable or the `--url` flag
+- [`@neondatabase/serverless`](https://www.npmjs.com/package/@neondatabase/serverless)
+  installed (peer dependency)
 
 ## Quick start
 
