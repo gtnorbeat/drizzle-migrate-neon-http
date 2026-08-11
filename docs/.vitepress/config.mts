@@ -17,7 +17,7 @@ export default defineConfig({
       { text: "Guide", link: "/guide/why" },
       { text: "CLI", link: "/cli" },
       { text: "API", link: "/api/runMigrations" },
-      { text: "GitHub", link: "https://github.com/astrocat86/drizzle-migrate-neon-http" },
+      { text: "GitHub", link: "https://github.com/gtnorbeat/drizzle-migrate-neon-http" },
     ],
     sidebar: [
       {
@@ -47,8 +47,8 @@ export default defineConfig({
     outline: { label: "On this page", level: [2, 3] },
     footer: {
       message: "Released under the MIT License.",
-      copyright: "Copyright © 2026 astrocat86",
+      copyright: "Copyright © 2026 gtnorbeat",
     },
-    socialLinks: [{ icon: "github", link: "https://github.com/astrocat86/drizzle-migrate-neon-http" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/gtnorbeat/drizzle-migrate-neon-http" }],
   },
 });
