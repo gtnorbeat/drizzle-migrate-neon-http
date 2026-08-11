@@ -25,7 +25,7 @@ Closes #<!-- issue number -->
 - [ ] I followed the [Contributing Guidelines](../CONTRIBUTING.md)
 - [ ] `npm test` passes (new behaviour is covered by tests)
 - [ ] `npm run lint` passes
-- [ ] I updated `docs/` if I changed CLI or API behaviour
+- [ ] I updated the docs on the [`docs` branch](../CONTRIBUTING.md) if I changed CLI or API behaviour
 - [ ] My commit message follows Conventional Commits (`feat:`, `fix:`, …)
 
 ## Screenshots (if applicable)
