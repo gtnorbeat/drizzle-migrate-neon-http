@@ -21,6 +21,25 @@ drizzle-migrate-neon-http --url "postgresql://user:pass@your-branch.neon.tech/db
 
 `--help` and `--version` never need a connection string — they work without it.
 
+## Verify the connection with `psql`
+
+Unsure whether `DATABASE_URL` points where you think? Check it directly with
+`psql` using Neon's universal hostname — role names are globally unique, so
+Neon routes to the right project automatically:
+
+```bash
+psql -h pg.neon.tech -U <role-name> -d <database-name>
+```
+
+Use the `user` and `database` parts of your connection string for
+`<role-name>` and `<database-name>`. Connections require SSL — add
+`sslmode=require` if your client doesn't default to it — and `pg.neon.tech` is
+the **direct** endpoint on port 5432. For the connection pooler, use the
+pooled connection string from the Neon console instead.
+
+If `psql` connects but the runner still fails, the problem is in the migration
+folder or the script, not the network.
+
 ## `Could not read journal`
 
 **Error:**
