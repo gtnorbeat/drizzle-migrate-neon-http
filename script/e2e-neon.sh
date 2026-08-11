@@ -129,12 +129,16 @@ if [ "$MODE" = "api" ]; then
   say "creating project $NAME…"
   PROJECT_JSON="$(api POST /projects "{\"project\":{\"org_id\":\"$ORG_ID\",\"name\":\"$NAME\",\"pg_version\":$NEON_PG,\"region_id\":\"$NEON_REGION\"},\"branch\":{\"name\":\"main\"}}")"
   PROJECT_ID="$(echo "$PROJECT_JSON" | json_get 'j.project.id')"
-  HOST="$(echo "$PROJECT_JSON" | json_get 'j.connection_uris[0].connection_parameters.host')"
-  USER_="$(echo "$PROJECT_JSON" | json_get 'j.connection_uris[0].connection_parameters.user')"
-  PASS="$(echo "$PROJECT_JSON" | json_get 'j.connection_uris[0].connection_parameters.password')"
-  DBNAME="$(echo "$PROJECT_JSON" | json_get 'j.connection_uris[0].connection_parameters.database')"
-  [ -n "$PROJECT_ID" ] && [ -n "$HOST" ] || die "could not parse project creation response"
+  # The create response names the default role "role" on some auth paths
+  # and "user" on others — accept both.
+  CONN_PARAMS="$(echo "$PROJECT_JSON" | json_get 'j.connection_uris[0].connection_parameters')"
+  HOST="$(echo "$CONN_PARAMS" | json_get 'j.host')"
+  USER_="$(echo "$CONN_PARAMS" | json_get 'j.role || j.user')"
+  PASS="$(echo "$CONN_PARAMS" | json_get 'j.password')"
+  DBNAME="$(echo "$CONN_PARAMS" | json_get 'j.database')"
+  [ -n "$PROJECT_ID" ] && [ -n "$HOST" ] && [ -n "$USER_" ] || die "could not parse project creation response"
   DATABASE_URL="postgresql://$USER_:$PASS@$HOST/$DBNAME?sslmode=require"
+  export DATABASE_URL
   echo "  project ${PROJECT_ID:0:8}… ready (host ${HOST%%.*}…, db $DBNAME)"
 fi
 
@@ -219,8 +223,6 @@ EOF
 MIGRATIONS="$(ls "$TMPDIR"/drizzle/*.sql 2>/dev/null | wc -l)"
 [ "$MIGRATIONS" = "2" ] || die "expected 2 migration files, got $MIGRATIONS"
 echo "  $MIGRATIONS migration files generated"
-
-export DATABASE_URL
 
 # --- dry-run -----------------------------------------------------------
 say "dry-run (must detect 2 pending migrations and touch nothing)…"
