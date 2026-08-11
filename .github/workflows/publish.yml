@@ -35,25 +35,24 @@ jobs:
       contents: read
       id-token: write # required for npm provenance (attestations)
     steps:
+      # Full history is needed to compare against the previous release tag.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
           cache: npm
-      - run: npm ci
 
-      # Guard: the tag must match package.json version (v1.2.3 → 1.2.3).
-      # Prevents publishing a tag whose version wasn't bumped first.
-      - name: Verify tag matches package.json version
-        run: |
-          TAG="${GITHUB_REF_NAME#v}"
-          PKG="$(node -p "require('./package.json').version")"
-          if [ "$TAG" != "$PKG" ]; then
-            echo "::error::Tag '$GITHUB_REF_NAME' does not match package.json version '$PKG'"
-            exit 1
-          fi
-          echo "✅ tag v$TAG == package.json $PKG"
+      # Release gate (fail-fast, before npm ci): the tag must be valid plain
+      # SemVer, match package.json, and be a coherent bump from the previous
+      # release tag — exactly one of MAJOR/MINOR/PATCH increments by 1
+      # (see CONTRIBUTING.md → Releasing).
+      - name: Validate release tag (SemVer + package.json + coherent bump)
+        run: node script/check-release.mjs "$GITHUB_REF_NAME"
+
+      - run: npm ci
 
       # The E2E on Neon workflow also triggers on v* tags. GitHub runs
       # separate workflows in parallel, so wait for it to finish before
