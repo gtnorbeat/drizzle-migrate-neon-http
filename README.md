@@ -84,4 +84,4 @@ Found a bug? Want a feature? PRs are welcome and appreciated. 🤝
 
 ## License
 
-MIT © [astrocat86](https://www.npmjs.com/org/astrocat86) — see [LICENSE](LICENSE)
+MIT © [astrocat986](https://www.npmjs.com/~astrocat986) — see [LICENSE](LICENSE)
