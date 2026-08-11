@@ -14,7 +14,7 @@
 ---
 
 **📚 Full documentation:**
-[gtnorbeat.github.io/drizzle-migrate-neon-http](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
+[gtnorbeat.github.io/drizzle‑migrate‑neon‑http](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
 — getting started, CLI reference and API docs.
 
 ---
