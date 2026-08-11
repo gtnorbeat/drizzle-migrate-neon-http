@@ -208,6 +208,23 @@ Batch changes: it's fine to accumulate several commits on `main` and ship
 one release when there's something meaningful for users. Don't bump per
 commit — version numbers should mean something.
 
+### Version numbers follow SemVer
+
+Version numbers follow [SemVer](https://semver.org/) (`MAJOR.MINOR.PATCH`).
+The package is on `0.x`, so the public API is not yet considered stable —
+here is how each bump is chosen:
+
+| Bump | Command | When |
+|---|---|---|
+| `patch` | `npm version patch` | **Bug fixes and internal fixes only.** Behaviour changes solely by fixing bugs; no new features. Also README/LICENSE-only refreshes. |
+| `minor` | `npm version minor` | **New features**: new CLI flags, new API options, non-breaking additions. While on `0.x`, any *breaking* change to the public API also lands here — announce it in the release notes. |
+| `major` | `npm version major` | Reserved for **`1.0.0`**, when the public API is declared stable. From `1.x` onwards strict SemVer applies: minor = additive, major = breaking. |
+
+Rule of thumb: *would an existing user's script change behaviour or need
+touching?* **No** → `patch`. **It only adds options** → `minor`. **It breaks**
+→ `minor` (until 1.0) / `major` (after). When in doubt, raise it in the
+issue or PR.
+
 Maintainers publish via git tags; the [CI workflow](.github/workflows/publish.yml)
 runs tests, lint and then publishes to npm automatically. `main` is
 [protected](https://github.com/gtnorbeat/drizzle-migrate-neon-http/settings/branches)
