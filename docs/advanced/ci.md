@@ -129,8 +129,20 @@ DATABASE_URL="postgresql://user:pass@ep-….neon.tech/db?sslmode=require" script
 
 ### From CI
 
-`.github/workflows/e2e-neon.yml` runs mode A from the Actions tab
-(`workflow_dispatch`). Set `NEON_API_KEY` (and `NEON_ORG_ID` for personal
-keys) as repository secrets first, then **Actions → “E2E on Neon” → Run
-workflow**. The same job can be attached to release tags by uncommenting the
-`push:` block in the workflow file.
+`.github/workflows/e2e-neon.yml` runs mode A with the `NEON_API_KEY`
+repository secret, in two ways:
+
+1. **On demand** — from the Actions tab: **Actions → “E2E on Neon” → Run
+   workflow** (`workflow_dispatch`).
+2. **On every release tag** — a `v*` tag push triggers the job
+automatically, right alongside the publish workflow.
+
+> **Release gate.** GitHub runs separate workflows in parallel, so
+> `.github/workflows/publish.yml` **waits for the E2E run to complete
+> successfully before publishing** (same SHA, via `gh` + `GITHUB_TOKEN`).
+> If the end-to-end test fails, the release is blocked — a tag never reaches
+> npm with a broken migration lifecycle.
+
+Set `NEON_API_KEY` (and `NEON_ORG_ID` for personal keys) as repository
+secrets first. Personal keys: `NEON_ORG_ID` required. Org-scoped keys
+auto-detect the organization.
