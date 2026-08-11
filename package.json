@@ -3,7 +3,7 @@
   "version": "0.1.3",
   "description": "Run Drizzle SQL migrations on Neon's serverless HTTP driver — no multi-statement SQL, no local Postgres emulation, no night sweats.",
   "author": {
-    "name": "gtnorbeat"
+    "name": "astrocat86"
   },
   "repository": {
     "type": "git",
