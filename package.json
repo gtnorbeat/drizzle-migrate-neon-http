@@ -35,10 +35,7 @@
   "scripts": {
     "migrate": "node bin/migrate.mjs",
     "test": "node --test",
-    "lint": "eslint bin src test --no-warn-ignored",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "lint": "eslint bin src test --no-warn-ignored"
   },
   "keywords": [
     "drizzle",
@@ -63,7 +60,6 @@
     "@eslint/js": "^10.0.1",
     "@neondatabase/serverless": "^1.1.0",
     "eslint": "^10.6.0",
-    "globals": "^17.9.0",
-    "vitepress": "^1.6.4"
+    "globals": "^17.9.0"
   }
 }

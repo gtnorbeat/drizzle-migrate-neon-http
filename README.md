@@ -62,9 +62,14 @@ await runMigrations({ sql, migrationsDir: "./drizzle" });
 
 ## Wait — there's more
 
-Full docs live in the repo: [guide](https://astrocat86.github.io/drizzle-migrate-neon-http/guide/),
-[advanced](https://astrocat86.github.io/drizzle-migrate-neon-http/advanced/),
-[API reference](https://astrocat86.github.io/drizzle-migrate-neon-http/api/).
+The docs are hosted at
+[astrocat86.github.io/drizzle-migrate-neon-http](https://astrocat86.github.io/drizzle-migrate-neon-http/)
+and maintained on the dedicated [`docs` branch](https://github.com/astrocat86/drizzle-migrate-neon-http/tree/docs):
+
+- [Guide](https://astrocat86.github.io/drizzle-migrate-neon-http/guide/)
+- [CLI reference](https://astrocat86.github.io/drizzle-migrate-neon-http/cli/)
+- [Advanced](https://astrocat86.github.io/drizzle-migrate-neon-http/advanced/)
+- [API reference](https://astrocat86.github.io/drizzle-migrate-neon-http/api/)
 
 ## Contributing
 

@@ -33,9 +33,9 @@ Useful commands:
 |---|---|
 | `npm test` | Runs the test suite (`node --test`) |
 | `npm run lint` | Lints `bin`, `src` and `test` with ESLint |
-| `npm run docs:dev` | Starts the VitePress docs dev server |
-| `npm run docs:build` | Builds the docs site |
 | `npm run migrate -- --dir ./drizzle --dry-run` | Tries the CLI against your own migrations |
+
+Docs live on the separate [`docs` branch](#documentation) — see below.
 
 ## Project conventions
 
@@ -81,7 +81,7 @@ error output.
    npm run lint
    ```
    Both must pass.
-5. If you changed CLI or API behaviour, update the docs in `docs/`.
+5. If you changed CLI or API behaviour, update the docs on the [`docs` branch](https://github.com/astrocat86/drizzle-migrate-neon-http/tree/docs).
 6. Open the PR using the [pull request template](.github/PULL_REQUEST_TEMPLATE.md).
 
 ### Before you push, double-check
@@ -116,9 +116,16 @@ When you add a feature, add tests for:
 
 ## Documentation
 
-The docs are a VitePress site in `docs/`. To preview changes:
+The docs are a VitePress site hosted at
+[astrocat86.github.io/drizzle-migrate-neon-http](https://astrocat86.github.io/drizzle-migrate-neon-http/)
+and maintained on the dedicated
+[`docs` branch](https://github.com/astrocat86/drizzle-migrate-neon-http/tree/docs) —
+this branch stays focused on the npm package. To work on them:
 
 ```bash
+git clone -b docs https://github.com/astrocat86/drizzle-migrate-neon-http.git
+cd drizzle-migrate-neon-http
+npm install
 npm run docs:dev
 ```
 
@@ -129,7 +136,7 @@ Update docs when you change:
 - Guide-level behaviour → `docs/guide/`
 
 Keep the tone beginner-friendly — the docs are read by people migrating a
-database at 11pm.
+database at 11pm. PRs touching docs go against the `docs` branch.
 
 ## Releasing
 
