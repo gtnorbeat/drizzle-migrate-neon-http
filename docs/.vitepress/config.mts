@@ -47,7 +47,7 @@ export default defineConfig({
     outline: { label: "On this page", level: [2, 3] },
     footer: {
       message: "Released under the MIT License.",
-      copyright: "Copyright © 2026 astrocat86",
+      copyright: "Copyright © 2026 astrocat986",
     },
     socialLinks: [{ icon: "github", link: "https://github.com/gtnorbeat/drizzle-migrate-neon-http" }],
   },
