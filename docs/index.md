@@ -17,7 +17,7 @@ hero:
       link: /guide/why
     - theme: alt
       text: View on GitHub
-      link: https://github.com/gtnorbeat/drizzle-migrate-neon-http
+      link: https://github.com/astrocat86/drizzle-migrate-neon-http
 
 features:
   - icon: ⚡
