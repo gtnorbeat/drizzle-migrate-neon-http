@@ -62,3 +62,25 @@ The `drizzle.__drizzle_migrations` table uses a `created_at bigint` timestamp an
 a hash. If two identical pipelines hit the database at once, the second sees the
 hash already applied and skips. Keep `--dry-run` for prod rehearsals, real runs
 only where they're supposed to land.
+
+## Testing the package itself (end-to-end)
+
+The repository ships
+[`script/e2e-neon.sh`](https://github.com/gtnorbeat/drizzle-migrate-neon-http/blob/main/script/e2e-neon.sh),
+a real end-to-end test that exercises the package exactly like a user would:
+create a database → generate migrations with `drizzle-kit` → dry-run → apply →
+re-run (idempotency) → data roundtrip → FK enforcement → cleanup.
+
+Two modes:
+
+```bash
+# Mode A — CI: creates a dedicated project, tests, deletes it
+NEON_API_KEY=... NEON_ORG_ID=... script/e2e-neon.sh
+
+# Mode B — your own database: tests and drops only what the test created
+DATABASE_URL="postgresql://..." script/e2e-neon.sh
+```
+
+A `workflow_dispatch` Action (`.github/workflows/e2e-neon.yml`) runs mode A from
+the Actions tab. Add `NEON_API_KEY` (and `NEON_ORG_ID` for personal keys) as
+repository secrets first.
