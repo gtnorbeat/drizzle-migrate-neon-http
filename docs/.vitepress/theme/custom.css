@@ -1,0 +1,90 @@
+/* ==================================================================
+   drizzle-migrate-neon-http — Neon identity theme
+   Anchor: Neon green #00E5A0 (bright) + WCAG-checked dark greens.
+   Light theme: dark teal-green accents on white (≥4.5:1).
+   Dark theme: bright Neon green on near-black (≥7:1).
+   ================================================================== */
+
+/* ---------- Brand tokens — light ---------- */
+:root {
+  /* Primary brand (links, active nav, hero name) */
+  --vp-c-brand-1: #00755a; /* 5.69:1 on white */
+  --vp-c-brand-2: #00805f; /* hover — 4.94:1 */
+  --vp-c-brand-3: #006f52; /* buttons bg + white text — 6.18:1 */
+  --vp-c-brand-soft: #e6f7f0; /* tinted surfaces */
+
+  /* Tip / success blocks follow the same green family */
+  --vp-c-green-1: #00755a;
+  --vp-c-green-2: #00805f;
+  --vp-c-green-3: #006f52;
+  --vp-c-green-soft: #e6f7f0;
+
+  /* Hero name: solid brand green (inherits --vp-c-brand-1) */
+  --vp-home-hero-name-color: var(--vp-c-brand-1);
+
+  /* Soft Neon glow behind the hero logo */
+  --vp-home-hero-image-background-image: radial-gradient(
+    closest-side,
+    rgba(0, 229, 160, 0.16),
+    rgba(0, 229, 160, 0.04)
+  );
+}
+
+/* ---------- Brand tokens — dark ---------- */
+.dark {
+  --vp-c-brand-1: #00e5a0; /* Neon bright — 9.9:1 on #1b1b1f */
+  --vp-c-brand-2: #3ff0b8; /* hover */
+  --vp-c-brand-3: #00d491; /* buttons bg + white text — 8.4:1 */
+  --vp-c-brand-soft: #10362a;
+
+  --vp-c-green-1: #00e5a0;
+  --vp-c-green-2: #3ff0b8;
+  --vp-c-green-3: #00d491;
+  --vp-c-green-soft: #10362a;
+
+  --vp-home-hero-name-color: #00e5a0;
+
+  --vp-home-hero-image-background-image: radial-gradient(
+    closest-side,
+    rgba(0, 229, 160, 0.18),
+    rgba(0, 229, 160, 0.03)
+  );
+}
+
+/* ---------- Hero: package name always on ONE line ---------- */
+.VPHome .VPHero .name {
+  white-space: nowrap;
+  font-size: clamp(20px, 5vw, 44px);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* ---------- Hero: balanced description & tagline ---------- */
+.VPHome .VPHero .text,
+.VPHome .VPHero .tagline {
+  max-width: 640px;
+}
+.VPHome .VPHero .text {
+  text-wrap: balance;
+}
+
+/* ---------- Typography ---------- */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 {
+  text-wrap: balance;
+}
+.vp-doc p,
+.vp-doc li {
+  text-wrap: pretty;
+}
+
+/* ---------- Selection & focus (Neon) ---------- */
+::selection {
+  background: #00e5a0;
+  color: #06281d;
+}
+:focus-visible {
+  outline-color: var(--vp-c-brand-1);
+}

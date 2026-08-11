@@ -39,5 +39,3 @@ features:
     title: Zero business logic
     details: A focused utility that knows only migrations, SQL and Neon. Drop it in any serverless Postgres project.
 ---
-
-<HomeGrid />
