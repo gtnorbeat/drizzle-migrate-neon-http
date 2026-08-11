@@ -199,7 +199,9 @@ only `bin/`, `src/`, `README.md` and `LICENSE` (see `files` in `package.json`)
 — everything else in the repo never reaches npm. So:
 
 - **A release is needed only for** changes to `bin/`, `src/`, `README.md`,
-  `LICENSE` or `package.json` metadata (deps, engines, …).
+  `LICENSE` or `package.json` metadata (deps, engines, …). Tooling-only
+  scripts (`test`, `lint`, coverage, …) don't ship behaviour — adding or
+  changing one never requires a release.
 - **No release is needed for** `script/`, `.github/`, `test/`,
   `CONTRIBUTING.md`, the docs site or the contributors list — merge those via
   PR to `main` (or `docs`) directly.

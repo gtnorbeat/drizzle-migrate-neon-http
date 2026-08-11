@@ -24,6 +24,11 @@ jobs:
       - run: npm ci
       - run: npm run test
       - run: npm run lint
+      # Coverage with thresholds over src/** — needs the --test-coverage-*
+      # flags (Node 22.6+), so it runs on the Node 22 matrix entry only.
+      - name: Coverage (src/** ≥ 95% lines/functions, ≥ 90% branches)
+        if: matrix.node == 22
+        run: npm run test:coverage:ci
 
   publish:
     name: Publish to npm
