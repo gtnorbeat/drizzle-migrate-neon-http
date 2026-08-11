@@ -4,3 +4,11 @@ coverage/
 .vitepress/dist/
 *.log
 .DS_Store
+
+# Environment variables — never commit secrets
+.env
+.env.*
+!.env.example
+
+# Local config / overrides
+*.local
