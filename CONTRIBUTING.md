@@ -173,11 +173,20 @@ database at 11pm. PRs touching docs go against the `docs` branch.
 ## Releasing
 
 Maintainers publish via git tags; the [CI workflow](.github/workflows/publish.yml)
-runs tests, lint and then publishes to npm automatically:
+runs tests, lint and then publishes to npm automatically. `main` is
+[protected](https://github.com/gtnorbeat/drizzle-migrate-neon-http/settings/branches)
+— no direct pushes, not even for maintainers — so the bump goes through a PR:
 
 ```bash
+# 1. on your agent/ branch — bump the version and tag locally
 npm version patch   # or minor / major
-git push --follow-tags
+
+# 2. push the branch and merge the bump into main via a pull request
+git push origin agent/your-branch
+# open a PR: agent/your-branch -> main, then merge it
+
+# 3. push the tag to trigger the publish
+git push origin v0.1.6
 ```
 
 - The tag must match `package.json` version (`v0.1.3` → `0.1.3`).
