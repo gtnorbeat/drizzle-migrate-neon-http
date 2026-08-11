@@ -26,6 +26,7 @@ export default defineConfig({
         items: [
           { text: "Why this exists", link: "/guide/why" },
           { text: "Getting started", link: "/guide/getting-started" },
+          { text: "Versioning & releases", link: "/guide/versioning" },
           { text: "Troubleshooting", link: "/guide/troubleshooting" },
         ],
       },
