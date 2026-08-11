@@ -60,8 +60,11 @@ Docs live on the separate [`docs` branch](#documentation) — see below.
   git checkout -b agent/your-feature
   ```
   Branches are pushed to the repo directly; keep them small and reviewable.
-- **`main`** — only the latest **stable** version of the package. Code lands
-  here only when it is released (bump + tag, see [Releasing](#releasing)).
+- **`main`** — the latest **stable** state of the repository. Files that are
+  *not* part of the published package (`script/`, `.github/`, `test/`,
+  `CONTRIBUTING.md`, …) can land here via PR at any time, **without a
+  release**. Only changes to the package itself (`bin/`, `src/`, `README.md`,
+  `LICENSE`) require a version bump + tag (see [Releasing](#releasing)).
   Never push work-in-progress straight to `main`.
 - **`docs`** — the VitePress site. Documentation changes go here
   (see [Documentation](#documentation)).
@@ -190,6 +193,20 @@ Keep the tone beginner-friendly — the docs are read by people migrating a
 database at 11pm. PRs touching docs go against the `docs` branch.
 
 ## Releasing
+
+**Release only when the published package changes.** The npm package ships
+only `bin/`, `src/`, `README.md` and `LICENSE` (see `files` in `package.json`)
+— everything else in the repo never reaches npm. So:
+
+- **A release is needed only for** changes to `bin/`, `src/`, `README.md`,
+  `LICENSE` or `package.json` metadata (deps, engines, …).
+- **No release is needed for** `script/`, `.github/`, `test/`,
+  `CONTRIBUTING.md`, the docs site or the contributors list — merge those via
+  PR to `main` (or `docs`) directly.
+
+Batch changes: it's fine to accumulate several commits on `main` and ship
+one release when there's something meaningful for users. Don't bump per
+commit — version numbers should mean something.
 
 Maintainers publish via git tags; the [CI workflow](.github/workflows/publish.yml)
 runs tests, lint and then publishes to npm automatically. `main` is
