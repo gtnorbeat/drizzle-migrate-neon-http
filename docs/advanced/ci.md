@@ -81,12 +81,16 @@ the suite is fast, hermetic and deterministic.
 Run them locally — both must pass before a PR is merged:
 
 ```bash
-npm test      # node --test — discovers every *.test.mjs
+npm test                  # node --test — discovers every *.test.mjs
 npm run lint
+npm run test:coverage     # coverage report (works on any supported Node)
+npm run test:coverage:ci  # src/** only, with thresholds (Node 22.6+)
 ```
 
 The publish workflow runs the suite on Node 18/20/22 before anything is
-published.
+published, and enforces **coverage on the Node 22 matrix entry**: `src/**`
+must stay at **≥ 95% lines/functions and ≥ 90% branches** — a drop below the
+threshold fails the build.
 
 ## End-to-end test
 
