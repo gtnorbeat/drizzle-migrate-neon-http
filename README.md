@@ -66,6 +66,17 @@ Full docs live in the repo: [guide](https://astrocat86.github.io/drizzle-migrate
 [advanced](https://astrocat86.github.io/drizzle-migrate-neon-http/advanced/),
 [API reference](https://astrocat86.github.io/drizzle-migrate-neon-http/api/).
 
+## Contributing
+
+Found a bug? Want a feature? PRs are welcome and appreciated. 🤝
+
+- Read the [Contributing Guidelines](CONTRIBUTING.md) — setup, conventions and
+  testing in one page
+- Use the [issue templates](https://github.com/astrocat86/drizzle-migrate-neon-http/issues/new/choose)
+  to file a bug report or feature request
+- Keep PRs small, tested (`npm test`) and linted (`npm run lint`)
+- Commit messages follow Conventional Commits (`feat:`, `fix:`, `docs:` …)
+
 ## License
 
-MIT © [astrocat86](https://github.com/astrocat86)
+MIT © [astrocat86](https://github.com/astrocat86) — see [LICENSE](LICENSE)
