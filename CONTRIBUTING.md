@@ -10,6 +10,7 @@ small, tested and well-documented are very welcome.
 
 - [Development setup](#development-setup)
 - [Project conventions](#project-conventions)
+- [Branching](#branching)
 - [Reporting issues](#reporting-issues)
 - [Submitting a pull request](#submitting-a-pull-request)
 - [Testing](#testing)
@@ -51,6 +52,19 @@ Docs live on the separate [`docs` branch](#documentation) — see below.
   `feat:`, `fix:`, `docs:`, `test:`, `ci:`, `chore:`, `refactor:`.
   This keeps the changelog greppable and matches the existing history.
 
+## Branching
+
+- **`agent/*`** — all day-to-day work. Create one branch per change:
+  ```bash
+  git checkout -b agent/your-feature
+  ```
+  Branches are pushed to the repo directly; keep them small and reviewable.
+- **`main`** — only the latest **stable** version of the package. Code lands
+  here only when it is released (bump + tag, see [Releasing](#releasing)).
+  Never push work-in-progress straight to `main`.
+- **`docs`** — the VitePress site. Documentation changes go here
+  (see [Documentation](#documentation)).
+
 ## Reporting issues
 
 Before opening an issue:
@@ -69,9 +83,9 @@ error output.
 
 ## Submitting a pull request
 
-1. **Fork** the repo and create a branch:
+1. **Fork** the repo and create a branch (see [Branching](#branching)):
    ```bash
-   git checkout -b feat/your-feature
+   git checkout -b agent/your-feature
    ```
 2. Make your change — keep it **small and focused**. One PR = one concern.
 3. Add or update **tests** in `test/` (`*.test.mjs`, run with `node --test`).
