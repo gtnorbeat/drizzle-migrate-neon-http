@@ -13,8 +13,16 @@ is chosen, so you know what to expect from an update.
 | **`minor`** | New features: new CLI flags, new API options, non-breaking additions. While on `0.x`, any **breaking** change to the public API also lands here — announced in the release notes. | `0.1.9` → `0.2.0` |
 | **`major`** | Reserved for `1.0.0`, when the public API is declared stable. From `1.x` onwards strict SemVer applies: minor = additive, major = breaking. | `0.2.0` → `1.0.0` |
 
-**Rule of thumb:** *would an existing script that uses the package change
-behaviour or need touching?*
+**The rule of thumb** (SemVer in one line):
+
+> **`patch` fixes a bug · `minor` adds a feature · `major` changes the API.**
+
+- **`patch`** — resolves a bug, changes nothing for users → `0.1.8` → `0.1.9`
+- **`minor`** — introduces a feature or an addition that breaks nothing → `0.1.9` → `0.2.0`
+- **`major`** — changes the API in a way consumers must adapt to → `0.2.0` → `1.0.0`
+
+Still unsure? Ask yourself: *would an existing script that uses the package
+change behaviour or need touching?*
 
 - **No** → `patch`
 - **It only adds options** → `minor`
