@@ -7,13 +7,12 @@ name: E2E on Neon
 # Required secrets:
 #   NEON_API_KEY   Neon API key (console.neon.tech → Settings → API keys)
 #   NEON_ORG_ID    Only for personal API keys; org-scoped keys infer it.
-#
-# To also run on every release tag, uncomment the push block below.
 
 on:
   workflow_dispatch:
-  # push:
-  #   tags: ['v*']
+  push:
+    tags:
+      - "v*"
 
 jobs:
   e2e:
