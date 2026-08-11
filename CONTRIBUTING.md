@@ -22,7 +22,7 @@ small, tested and well-documented are very welcome.
 Requirements: **Node.js >= 18** and npm.
 
 ```bash
-git clone https://github.com/astrocat86/drizzle-migrate-neon-http.git
+git clone https://github.com/gtnorbeat/drizzle-migrate-neon-http.git
 cd drizzle-migrate-neon-http
 npm install
 ```
@@ -55,9 +55,9 @@ Docs live on the separate [`docs` branch](#documentation) — see below.
 
 Before opening an issue:
 
-1. **Search** existing issues and the [docs](https://astrocat86.github.io/drizzle-migrate-neon-http/)
+1. **Search** existing issues and the [docs](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
    — your question may already be answered.
-2. Use the [issue templates](https://github.com/astrocat86/drizzle-migrate-neon-http/issues/new/choose):
+2. Use the [issue templates](https://github.com/gtnorbeat/drizzle-migrate-neon-http/issues/new/choose):
    - **Bug report** — include a minimal reproduction (migration `.sql` file or
      script) and your versions.
    - **Feature request** — explain the problem you're solving, not just the
@@ -81,7 +81,7 @@ error output.
    npm run lint
    ```
    Both must pass.
-5. If you changed CLI or API behaviour, update the docs on the [`docs` branch](https://github.com/astrocat86/drizzle-migrate-neon-http/tree/docs).
+5. If you changed CLI or API behaviour, update the docs on the [`docs` branch](https://github.com/gtnorbeat/drizzle-migrate-neon-http/tree/docs).
 6. Open the PR using the [pull request template](.github/PULL_REQUEST_TEMPLATE.md).
 
 ### Before you push, double-check
@@ -117,13 +117,13 @@ When you add a feature, add tests for:
 ## Documentation
 
 The docs are a VitePress site hosted at
-[astrocat86.github.io/drizzle-migrate-neon-http](https://astrocat86.github.io/drizzle-migrate-neon-http/)
+[gtnorbeat.github.io/drizzle-migrate-neon-http](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
 and maintained on the dedicated
-[`docs` branch](https://github.com/astrocat86/drizzle-migrate-neon-http/tree/docs) —
+[`docs` branch](https://github.com/gtnorbeat/drizzle-migrate-neon-http/tree/docs) —
 this branch stays focused on the npm package. To work on them:
 
 ```bash
-git clone -b docs https://github.com/astrocat86/drizzle-migrate-neon-http.git
+git clone -b docs https://github.com/gtnorbeat/drizzle-migrate-neon-http.git
 cd drizzle-migrate-neon-http
 npm install
 npm run docs:dev

@@ -8,7 +8,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report! Please search
-        the [docs](https://astrocat86.github.io/drizzle-migrate-neon-http/) and
+        the [docs](https://gtnorbeat.github.io/drizzle-migrate-neon-http/) and
         existing issues first.
   - type: textarea
     id: what-happened

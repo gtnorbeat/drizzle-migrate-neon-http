@@ -3,16 +3,16 @@
   "version": "0.1.3",
   "description": "Run Drizzle SQL migrations on Neon's serverless HTTP driver — no multi-statement SQL, no local Postgres emulation, no night sweats.",
   "author": {
-    "name": "astrocat86"
+    "name": "gtnorbeat"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/astrocat86/drizzle-migrate-neon-http.git"
+    "url": "git+https://github.com/gtnorbeat/drizzle-migrate-neon-http.git"
   },
   "bugs": {
-    "url": "https://github.com/astrocat86/drizzle-migrate-neon-http/issues"
+    "url": "https://github.com/gtnorbeat/drizzle-migrate-neon-http/issues"
   },
-  "homepage": "https://github.com/astrocat86/drizzle-migrate-neon-http#readme",
+  "homepage": "https://github.com/gtnorbeat/drizzle-migrate-neon-http#readme",
   "type": "module",
   "main": "./src/index.mjs",
   "types": "./src/index.d.mts",

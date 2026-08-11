@@ -7,9 +7,9 @@
 [![npm downloads](https://img.shields.io/npm/dm/drizzle-migrate-neon-http.svg?style=flat-square)](https://www.npmjs.com/package/drizzle-migrate-neon-http)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Node](https://img.shields.io/badge/node-%3E%3D18-339933.svg?style=flat-square&logo=node.js&logoColor=white)](package.json)
-[![Docs](https://img.shields.io/badge/docs-VitePress-41b883.svg?style=flat-square)](https://astrocat86.github.io/drizzle-migrate-neon-http/)
-[![CI](https://img.shields.io/github/actions/workflow/status/astrocat86/drizzle-migrate-neon-http/publish.yml.svg?style=flat-square)](https://github.com/astrocat86/drizzle-migrate-neon-http/actions)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/astrocat86/drizzle-migrate-neon-http/pulls)
+[![Docs](https://img.shields.io/badge/docs-VitePress-41b883.svg?style=flat-square)](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
+[![CI](https://img.shields.io/github/actions/workflow/status/gtnorbeat/drizzle-migrate-neon-http/publish.yml.svg?style=flat-square)](https://github.com/gtnorbeat/drizzle-migrate-neon-http/actions)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/gtnorbeat/drizzle-migrate-neon-http/pulls)
 
 ---
 
@@ -63,13 +63,13 @@ await runMigrations({ sql, migrationsDir: "./drizzle" });
 ## Wait — there's more
 
 The docs are hosted at
-[astrocat86.github.io/drizzle-migrate-neon-http](https://astrocat86.github.io/drizzle-migrate-neon-http/)
-and maintained on the dedicated [`docs` branch](https://github.com/astrocat86/drizzle-migrate-neon-http/tree/docs):
+[gtnorbeat.github.io/drizzle-migrate-neon-http](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
+and maintained on the dedicated [`docs` branch](https://github.com/gtnorbeat/drizzle-migrate-neon-http/tree/docs):
 
-- [Guide](https://astrocat86.github.io/drizzle-migrate-neon-http/guide/)
-- [CLI reference](https://astrocat86.github.io/drizzle-migrate-neon-http/cli/)
-- [Advanced](https://astrocat86.github.io/drizzle-migrate-neon-http/advanced/)
-- [API reference](https://astrocat86.github.io/drizzle-migrate-neon-http/api/)
+- [Guide](https://gtnorbeat.github.io/drizzle-migrate-neon-http/guide/)
+- [CLI reference](https://gtnorbeat.github.io/drizzle-migrate-neon-http/cli/)
+- [Advanced](https://gtnorbeat.github.io/drizzle-migrate-neon-http/advanced/)
+- [API reference](https://gtnorbeat.github.io/drizzle-migrate-neon-http/api/)
 
 ## Contributing
 
@@ -77,11 +77,11 @@ Found a bug? Want a feature? PRs are welcome and appreciated. 🤝
 
 - Read the [Contributing Guidelines](CONTRIBUTING.md) — setup, conventions and
   testing in one page
-- Use the [issue templates](https://github.com/astrocat86/drizzle-migrate-neon-http/issues/new/choose)
+- Use the [issue templates](https://github.com/gtnorbeat/drizzle-migrate-neon-http/issues/new/choose)
   to file a bug report or feature request
 - Keep PRs small, tested (`npm test`) and linted (`npm run lint`)
 - Commit messages follow Conventional Commits (`feat:`, `fix:`, `docs:` …)
 
 ## License
 
-MIT © [astrocat86](https://github.com/astrocat86) — see [LICENSE](LICENSE)
+MIT © [gtnorbeat](https://github.com/gtnorbeat) — see [LICENSE](LICENSE)
