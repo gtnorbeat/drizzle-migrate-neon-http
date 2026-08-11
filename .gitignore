@@ -1,6 +1,4 @@
 node_modules/
-dist/
-coverage/
-.vitepress/dist/
+docs/.vitepress/dist/
 *.log
 .DS_Store

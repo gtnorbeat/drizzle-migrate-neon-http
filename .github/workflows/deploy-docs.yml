@@ -1,0 +1,49 @@
+name: Deploy docs to GitHub Pages
+
+on:
+  push:
+    branches: [docs]
+  # Allow manual trigger from the Actions tab (useful to re-run a failed deploy)
+  workflow_dispatch:
+
+# Allow this job to clone the repo and create a Page deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Deploy only the most recent docs push; cancel any in-progress runs
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build VitePress site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run docs:build
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

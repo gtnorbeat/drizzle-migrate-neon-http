@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: 📚 Documentation
-    url: https://astrocat86.github.io/drizzle-migrate-neon-http/
-    about: Read the docs first — the answer might already be there.
-  - name: 💬 Discussions
-    url: https://github.com/astrocat86/drizzle-migrate-neon-http/discussions
-    about: Ask questions, share setups and discuss ideas before opening an issue.
