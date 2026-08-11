@@ -7,6 +7,7 @@ export default defineConfig({
   base: "/drizzle-migrate-neon-http/",
   cleanUrls: true,
   head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/drizzle-migrate-neon-http/neon-mark.svg' }],
     ['meta', { name: 'theme-color', content: '#00E5A0' }],
     ['meta', { name: 'og:title', content: 'drizzle-migrate-neon-http' }],
     ['meta', { name: 'og:description', content: 'Drizzle migrations on Neon HTTP driver — one statement at a time.' }],
