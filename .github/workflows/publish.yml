@@ -55,6 +55,33 @@ jobs:
           fi
           echo "✅ tag v$TAG == package.json $PKG"
 
+      # The E2E on Neon workflow also triggers on v* tags. GitHub runs
+      # separate workflows in parallel, so wait for it to finish before
+      # publishing — a failed end-to-end run blocks the release.
+      - name: Wait for E2E on Neon to pass
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 40); do
+            RUN="$(gh api \
+              "repos/${{ github.repository }}/actions/workflows/e2e-neon.yml/runs?event=push&head_sha=${{ github.sha }}" \
+              --jq '.workflow_runs[0].status, .workflow_runs[0].conclusion')"
+            STATUS="$(echo "$RUN" | sed -n 1p)"
+            CONCLUSION="$(echo "$RUN" | sed -n 2p)"
+            echo "E2E run: status=$STATUS conclusion=${CONCLUSION:-pending}"
+            if [ "$STATUS" = "completed" ]; then
+              if [ "$CONCLUSION" = "success" ]; then
+                echo "✅ E2E on Neon passed"
+                exit 0
+              fi
+              echo "::error::E2E on Neon did not pass (conclusion: $CONCLUSION)"
+              exit 1
+            fi
+            sleep 15
+          done
+          echo "::error::Timed out waiting for the E2E on Neon workflow"
+          exit 1
+
       - name: Publish to npm
         run: npm publish --access public --provenance
         env:
