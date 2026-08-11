@@ -146,6 +146,25 @@ When you add a feature, add tests for:
 - the **failure paths** (bad arguments, missing `DATABASE_URL`, malformed SQL)
 - the **idempotency guarantees** the package advertises
 
+### End-to-end test on Neon
+
+Beyond the unit tests, [`script/e2e-neon.sh`](script/e2e-neon.sh) runs a real
+end-to-end test: it creates a Neon database, generates migrations with
+`drizzle-kit`, runs the CLI's dry-run + apply, checks idempotency, a data
+roundtrip and FK enforcement, then cleans up after itself.
+
+```bash
+# Mode A (CI): create a dedicated project, test, delete it
+NEON_API_KEY=... NEON_ORG_ID=... script/e2e-neon.sh
+
+# Mode B (your own database): test and drop only what the test created
+DATABASE_URL="postgresql://..." script/e2e-neon.sh
+```
+
+A [`workflow_dispatch` workflow](.github/workflows/e2e-neon.yml) runs mode A
+from the Actions tab — add `NEON_API_KEY` (and `NEON_ORG_ID` for personal
+keys) as repository secrets first.
+
 ## Documentation
 
 The docs are a VitePress site hosted at
