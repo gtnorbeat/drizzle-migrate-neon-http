@@ -63,24 +63,74 @@ a hash. If two identical pipelines hit the database at once, the second sees the
 hash already applied and skips. Keep `--dry-run` for prod rehearsals, real runs
 only where they're supposed to land.
 
-## Testing the package itself (end-to-end)
+## End-to-end test
 
 The repository ships
-[`script/e2e-neon.sh`](https://github.com/gtnorbeat/drizzle-migrate-neon-http/blob/main/script/e2e-neon.sh),
-a real end-to-end test that exercises the package exactly like a user would:
-create a database → generate migrations with `drizzle-kit` → dry-run → apply →
-re-run (idempotency) → data roundtrip → FK enforcement → cleanup.
+[`script/e2e-neon.sh`](https://github.com/gtnorbeat/drizzle-migrate-neon-http/blob/main/script/e2e-neon.sh):
+a real end-to-end test that exercises the package exactly like a user would.
+It installs the packed tarball (honoring the `files` field, so it tests
+precisely what npm ships), generates migrations with `drizzle-kit` and runs the
+full migration lifecycle against a real Neon database.
 
-Two modes:
+### What it verifies
+
+1. **Migrations** — generates two migrations from a schema with FK + indexes
+2. **Dry-run** — detects both pending migrations without touching the schema
+3. **Apply** — runs both, recorded in `drizzle.__drizzle_migrations`
+4. **Idempotency** — a re-run skips everything as already applied
+5. **Data roundtrip** — INSERT + JOIN across `users`/`posts`/`comments`
+6. **FK enforcement** — a violating INSERT is rejected (error `23503`)
+
+It exits `0` on success and `1` on the first failure. Requires `node`, `npm`
+and `curl` on the PATH.
+
+### Mode A — dedicated project (CI)
+
+Creates a throwaway Neon project, tests against it and **deletes the project**
+afterwards (even on failure, via an EXIT trap). Nothing else is touched.
 
 ```bash
-# Mode A — CI: creates a dedicated project, tests, deletes it
-NEON_API_KEY=... NEON_ORG_ID=... script/e2e-neon.sh
-
-# Mode B — your own database: tests and drops only what the test created
-DATABASE_URL="postgresql://..." script/e2e-neon.sh
+NEON_API_KEY=... script/e2e-neon.sh
 ```
 
-A `workflow_dispatch` Action (`.github/workflows/e2e-neon.yml`) runs mode A from
-the Actions tab. Add `NEON_API_KEY` (and `NEON_ORG_ID` for personal keys) as
-repository secrets first.
+| Variable | Required | Notes |
+|---|---|---|
+| `NEON_API_KEY` | ✅ | Neon API key (console.neon.tech → Settings → API keys) |
+| `NEON_ORG_ID` | 🔸 | Only for *personal* keys; org-scoped keys auto-detect it |
+| `NEON_REGION` | no | Project region (default `aws-us-east-2`) |
+| `NEON_PG` | no | Postgres major version (default `16`) |
+| `KEEP_PROJECT=1` | no | Keep the project after the test (debugging) |
+
+### Mode B — your own database
+
+Runs against an existing database and **drops only the tables/schema the test
+created** (`users`, `posts`, `comments`, `drizzle` schema) — everything else is
+left untouched.
+
+```bash
+DATABASE_URL="postgresql://user:pass@ep-….neon.tech/db?sslmode=require" script/e2e-neon.sh
+```
+
+`NEON_API_KEY` and `DATABASE_URL` are mutually exclusive.
+
+### Expected output
+
+```text
+▸ drizzle-migrate-neon-http — end-to-end test on Neon (mode: api)
+▸ creating project drizzle-migrate-e2e-…
+▸ generating migrations (drizzle-kit)…
+▸ dry-run (must detect 2 pending migrations and touch nothing)…
+▸ apply (must run both migrations)…
+▸ re-run (must skip both as already applied)…
+▸ data roundtrip + FK enforcement…
+▸ PASS — drizzle-migrate-neon-http v0.1.7 works end-to-end on Neon
+  [cleanup] deleting test project …
+```
+
+### From CI
+
+`.github/workflows/e2e-neon.yml` runs mode A from the Actions tab
+(`workflow_dispatch`). Set `NEON_API_KEY` (and `NEON_ORG_ID` for personal
+keys) as repository secrets first, then **Actions → “E2E on Neon” → Run
+workflow**. The same job can be attached to release tags by uncommenting the
+`push:` block in the workflow file.
