@@ -51,7 +51,7 @@
     "drizzle-orm",
     "neondatabase"
   ],
-  "license": "MIT",
+  "license": "MPL-2.0",
   "engines": {
     "node": ">=18.0.0"
   },
