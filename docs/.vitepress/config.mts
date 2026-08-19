@@ -7,13 +7,14 @@ export default defineConfig({
   base: "/drizzle-migrate-neon-http/",
   cleanUrls: true,
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/drizzle-migrate-neon-http/dsp-logo.png' }],
-    ['meta', { name: 'theme-color', content: '#00E5A0' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/drizzle-migrate-neon-http/dsp-logo-32.png' }],
+    ['link', { rel: 'apple-touch-icon', href: '/drizzle-migrate-neon-http/dsp-logo-180.png' }],
+    ['meta', { name: 'theme-color', content: '#32B761' }],
     ['meta', { name: 'og:title', content: 'drizzle-migrate-neon-http' }],
     ['meta', { name: 'og:description', content: 'Drizzle migrations on Neon HTTP driver — one statement at a time.' }],
   ],
   themeConfig: {
-    logo: "/dsp-logo.png",
+    logo: "/dsp-logo-64.png",
     nav: [
       { text: "Guide", link: "/guide/why" },
       { text: "CLI", link: "/cli" },
