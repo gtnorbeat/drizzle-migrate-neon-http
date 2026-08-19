@@ -15,6 +15,9 @@ export default defineConfig({
   ],
   themeConfig: {
     logo: "/dsp-logo-64.png",
+    search: {
+      provider: "local",
+    },
     nav: [
       { text: "Guide", link: "/guide/why" },
       { text: "CLI", link: "/cli" },
@@ -29,6 +32,7 @@ export default defineConfig({
           { text: "Getting started", link: "/guide/getting-started" },
           { text: "Versioning & releases", link: "/guide/versioning" },
           { text: "Troubleshooting", link: "/guide/troubleshooting" },
+          { text: "FAQ", link: "/guide/faq" },
         ],
       },
       {
