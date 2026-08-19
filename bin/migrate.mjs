@@ -21,6 +21,9 @@ Options:
                    (default: ./drizzle)
   --dry-run        Print statements without executing anything
   --url <dsn>      Postgres connection string (falls back to $DATABASE_URL)
+  --strict         Fail when a .sql file is missing from the journal
+  --retries <n>    Extra attempts after a failed run, with backoff (default: 0)
+  --timeout <ms>   Per-query deadline; a stalled query then fails fast
   --help, -h       Show this help
   --version, -v    Print the package version
 
@@ -49,7 +52,14 @@ async function main() {
 
   console.log(`▸ Migrations dir: ${migrationsDir}${opts.dryRun ? " (dry-run)" : ""}`);
 
-  await runMigrations({ sql, migrationsDir, dryRun: opts.dryRun });
+  await runMigrations({
+    sql,
+    migrationsDir,
+    dryRun: opts.dryRun,
+    strict: opts.strict,
+    retries: opts.retries,
+    timeoutMs: opts.timeoutMs,
+  });
 
   console.log("All migrations applied successfully.");
 }

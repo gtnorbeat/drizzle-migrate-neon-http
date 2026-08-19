@@ -210,23 +210,15 @@ test("'already exists' errors are skipped and the migration completes", async ()
   const sql = makeSql({ failures: { [stmts[0]]: alreadyExists } });
   const log = makeLogger();
 
-  // executeStatement reports idempotent skips via console.log, not the injected
-  // logger — capture it so the message is still asserted.
-  const originalLog = console.log;
-  const consoleLines = [];
-  console.log = (msg) => consoleLines.push(String(msg));
-  try {
-    await runMigrations({ sql, migrationsDir: FIXTURES, log });
-  } finally {
-    console.log = originalLog;
-  }
+  await runMigrations({ sql, migrationsDir: FIXTURES, log });
 
   // Statement 1 skipped as idempotent, statement 2 executed, migration recorded
   assert.equal(sql.calls.query.length, 3);
   assert.equal(sql.calls.tagged.length, 5);
-  assert.ok(
-    consoleLines.some((l) => l.includes('skipped — relation "todos" already exists')),
-    "skip message printed",
+  assert.match(
+    log.lines.join("\n"),
+    /skipped — relation "todos" already exists/,
+    "skip message routed through the injected logger",
   );
 });
 
@@ -246,4 +238,141 @@ test("errors without an 'already exists' code are re-thrown even mid-migration",
   // 0001 never recorded (no INSERT), statement 2 failed after statement 1 ran
   assert.equal(sql.calls.tagged.length, 3);
   assert.equal(sql.calls.query.length, 2);
+});
+
+/** Build a temp migrations dir with a journal and an arbitrary set of files. */
+function makeDir({ entries, files }) {
+  const dir = mkdtempSync(join(tmpdir(), "runner-orphan-"));
+  mkdirSync(join(dir, "meta"));
+  writeFileSync(
+    join(dir, "meta", "_journal.json"),
+    JSON.stringify({ version: "7", dialect: "postgresql", entries }),
+  );
+  for (const [name, content] of Object.entries(files)) {
+    writeFileSync(join(dir, name), content);
+  }
+  return dir;
+}
+
+const ORPHAN_ENTRY = { idx: 0, version: "7", when: 1, tag: "0001_known", breakpoints: true };
+
+test("an unregistered .sql file warns but does not block the run", async () => {
+  const dir = makeDir({
+    entries: [ORPHAN_ENTRY],
+    files: {
+      "0001_known.sql": "-- nothing\n",
+      "0002_orphan.sql": "CREATE TABLE IF NOT EXISTS stray ();\n",
+    },
+  });
+  try {
+    const sql = makeSql();
+    const log = makeLogger();
+
+    await runMigrations({ sql, migrationsDir: dir, log });
+
+    const joined = log.lines.join("\n");
+    assert.match(joined, /\[warn\]/);
+    assert.match(joined, /0002_orphan\.sql/);
+    assert.match(joined, /\[done\] 0001_known\.sql/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("strict mode fails fast on an unregistered .sql file", async () => {
+  const dir = makeDir({
+    entries: [ORPHAN_ENTRY],
+    files: {
+      "0001_known.sql": "-- nothing\n",
+      "0002_orphan.sql": "CREATE TABLE IF NOT EXISTS stray ();\n",
+    },
+  });
+  try {
+    const sql = makeSql();
+    const log = makeLogger();
+
+    await assert.rejects(
+      runMigrations({ sql, migrationsDir: dir, log, strict: true }),
+      /0002_orphan\.sql/,
+    );
+    // Pre-flight: nothing was applied, not even the tracking schema.
+    assert.equal(sql.calls.tagged.length, 0);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("no warning when every .sql file is registered in the journal", async () => {
+  const sql = makeSql();
+  const log = makeLogger();
+
+  await runMigrations({ sql, migrationsDir: FIXTURES, log });
+
+  assert.doesNotMatch(log.lines.join("\n"), /\[warn\]/);
+});
+
+test("orphan warning falls back to log.log when the logger has no warn method", async () => {
+  const dir = makeDir({
+    entries: [ORPHAN_ENTRY],
+    files: {
+      "0001_known.sql": "-- nothing\n",
+      "0002_orphan.sql": "CREATE TABLE IF NOT EXISTS stray ();\n",
+    },
+  });
+  try {
+    const sql = makeSql();
+    const lines = [];
+    const log = { log: (msg) => lines.push(msg) };
+
+    await runMigrations({ sql, migrationsDir: dir, log });
+
+    assert.match(lines.join("\n"), /0002_orphan\.sql/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("retries re-run after a transient failure and eventually succeed", async () => {
+  let selectCalls = 0;
+  const sql = (strings, ...values) => {
+    const text = String.raw({ raw: strings }, ...values);
+    if (text.includes("SELECT hash")) {
+      selectCalls += 1;
+      if (selectCalls === 1) return Promise.reject(new Error("connection reset"));
+      return Promise.resolve([]);
+    }
+    return Promise.resolve([]);
+  };
+  sql.query = () => Promise.resolve([]);
+  const log = makeLogger();
+
+  await runMigrations({ sql, migrationsDir: FIXTURES, log, retries: 1 });
+
+  assert.equal(selectCalls, 2);
+  const joined = log.lines.join("\n");
+  assert.match(joined, /attempt 1\/2 failed: connection reset/);
+  assert.match(joined, /\[done\] 0002_users\.sql/);
+});
+
+test("retries give up once the retry budget is exhausted", async () => {
+  const sql = () => Promise.reject(new Error("always down"));
+  sql.query = () => Promise.resolve([]);
+  const log = makeLogger();
+
+  await assert.rejects(
+    runMigrations({ sql, migrationsDir: FIXTURES, log, retries: 1 }),
+    /always down/,
+  );
+  assert.match(log.lines.join("\n"), /attempt 1\/2 failed: always down/);
+});
+
+test("timeout rejects a stalled query instead of hanging forever", async () => {
+  const sql = () => Promise.resolve([]);
+  sql.query = () => new Promise(() => {}); // never settles
+  const log = makeLogger();
+
+  await assert.rejects(
+    runMigrations({ sql, migrationsDir: FIXTURES, log, timeoutMs: 50 }),
+    /timed out after 50ms/,
+  );
 });

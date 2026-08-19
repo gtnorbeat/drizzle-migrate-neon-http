@@ -56,6 +56,9 @@ test("bin --help prints usage and exits 0", () => {
   assert.match(stdout, /^drizzle-migrate-neon-http — Drizzle migrations on Neon's HTTP driver/);
   assert.match(stdout, /--dir <path>/);
   assert.match(stdout, /--dry-run/);
+  assert.match(stdout, /--strict/);
+  assert.match(stdout, /--retries <n>/);
+  assert.match(stdout, /--timeout <ms>/);
   assert.match(stdout, /--version, -v/);
 });
 
