@@ -20,6 +20,27 @@ migrate:
 
 Set `PRODUCTION_DATABASE_URL` as a protected CI/CD variable.
 
+## Hardening for CI
+
+Three flags make the runner pipeline-friendly:
+
+```bash
+# 1. Fail fast on journal drift — a .sql file that was never registered in
+#    meta/_journal.json would otherwise be silently skipped.
+npx drizzle-migrate-neon-http --dir ./packages/db/drizzle --strict
+
+# 2. Retry transient HTTP failures instead of failing the whole run. Safe
+#    because re-runs skip already-applied files and heal partial ones.
+npx drizzle-migrate-neon-http --dir ./packages/db/drizzle --retries 3
+
+# 3. Give each query a deadline so a stalled connection fails fast instead
+#    of hanging the job until the runner's own timeout.
+npx drizzle-migrate-neon-http --dir ./packages/db/drizzle --timeout 15000
+
+# Combine them:
+npx drizzle-migrate-neon-http --dir ./packages/db/drizzle --strict --retries 3 --timeout 15000
+```
+
 ## GitHub Actions
 
 ```yaml
@@ -65,17 +86,17 @@ only where they're supposed to land.
 
 ## Unit tests
 
-Alongside the end-to-end test, the package ships **34 unit tests** run with
+Alongside the end-to-end test, the package ships **48 unit tests** run with
 the built-in Node test runner (`node --test`) — no test framework, no extra
 dependencies and **no database needed**. The Neon HTTP client is *mocked*, so
 the suite is fast, hermetic and deterministic.
 
 | Test file | Tests | Covers |
 |---|---|---|
-| `test/migration-runner.test.mjs` | 10 | `runMigrations` with a mocked `neon()` query function: apply order, per-statement execution, hash tracking, skip already-applied (via SELECT and via the `alreadyApplied` option), dry-run, missing journal/file, failing statement (no hash recorded), idempotent `42P07` skip, `23503` rethrow, comments-only migration |
-| `test/options.test.mjs` | 9 | `parseOptions`: defaults, `--dry-run`, `--dir`, `--url` precedence over `DATABASE_URL`, `--help`/`--version` without a connection string, missing-URL error, unknown flags |
+| `test/migration-runner.test.mjs` | 21 | `runMigrations` with a mocked `neon()` query function: apply order, per-statement execution, hash tracking, skip already-applied (via SELECT and via the `alreadyApplied` option), dry-run, missing journal/file, failing statement (no hash recorded), idempotent `42P07` skip, `23503` rethrow, comments-only migration, orphaned-file warn/strict/no-op, retry success/exhaustion, query timeout, logger fallback |
+| `test/options.test.mjs` | 15 | `parseOptions`: defaults, `--dry-run`, `--dir`, `--url` precedence over `DATABASE_URL`, `--help`/`--version` without a connection string, missing-URL error, unknown flags, `--strict`, `--retries`, `--timeout` (+ invalid values) |
 | `test/split-statements.test.mjs` | 7 | SQL splitter: multi-statement, semicolons inside strings, escapes, comments |
-| `test/bin.test.mjs` | 4 | CLI smoke tests: `--version`, `-v`, `--help`, `-h` |
+| `test/bin.test.mjs` | 5 | CLI smoke tests: `--version`, `-v`, `--help`, `-h`, new flags in `--help` |
 | `test/check-release.test.mjs` | 4 | Release-tag validation logic: SemVer parsing and coherent-bump checks |
 
 Run them locally — both must pass before a PR is merged:

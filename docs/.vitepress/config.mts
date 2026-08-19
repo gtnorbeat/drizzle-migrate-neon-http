@@ -49,7 +49,7 @@ export default defineConfig({
     ],
     outline: { label: "On this page", level: [2, 3] },
     footer: {
-      message: "Released under the <a href=\"https://www.mozilla.org/en-US/MPL/2.0/\" target=\"_blank\" rel=\"noopener\">Mozilla Public License 2.0</a>.",
+      message: "Released under the <a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\" rel=\"noopener\">MIT License</a>.",
       copyright: "Copyright © 2026 astrocat986",
     },
     socialLinks: [{ icon: "github", link: "https://github.com/gtnorbeat/drizzle-migrate-neon-http" }],

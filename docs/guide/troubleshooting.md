@@ -70,6 +70,31 @@ isn't in the folder — deleted, renamed, or an incomplete copy.
 **Fix:** every file listed in the journal must exist next to it. Restore the
 missing file or regenerate the migrations.
 
+## A `.sql` file is present but never applied
+
+**Output:**
+```
+[warn] 1 migration file(s) are not registered in meta/_journal.json and will NOT be applied:
+  - 0010_add_thing.sql
+```
+
+**Cause:** the runner only walks the journal (`meta/_journal.json`), so a `.sql`
+file that exists on disk but is *not* registered in the journal is invisible —
+it is never executed. This usually happens when a migration is copied into the
+folder without going through `drizzle-kit generate` (which writes the journal
+entry), or when a commit lands with the file but not the journal update.
+
+The classic symptom downstream is a missing table or `column "…" does not
+exist` error in code that expects the migration to have run.
+
+**Fix:** register the file in the journal (add the matching entry with the
+right `tag`, `idx` and `when`), or remove the stray file. To make this drift a
+hard failure in CI instead of a warning, run with `--strict`:
+
+```bash
+drizzle-migrate-neon-http --dir ./drizzle --strict
+```
+
 ## Migrations are skipped as "already applied"
 
 **Output:**
