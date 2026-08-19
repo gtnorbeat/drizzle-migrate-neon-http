@@ -5,7 +5,7 @@
 
 [![npm version](https://img.shields.io/npm/v/drizzle-migrate-neon-http.svg?style=flat-square&logo=npm&logoColor=white)](https://www.npmjs.com/package/drizzle-migrate-neon-http)
 [![npm downloads](https://img.shields.io/npm/dm/drizzle-migrate-neon-http.svg?style=flat-square)](https://www.npmjs.com/package/drizzle-migrate-neon-http)
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg?style=flat-square)](https://opensource.org/licenses/MPL-2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Node](https://img.shields.io/badge/node-%3E%3D18-339933.svg?style=flat-square&logo=node.js&logoColor=white)](package.json)
 [![Docs](https://img.shields.io/badge/docs-VitePress-41b883.svg?style=flat-square)](https://gtnorbeat.github.io/drizzle-migrate-neon-http/)
 [![CI](https://img.shields.io/github/actions/workflow/status/gtnorbeat/drizzle-migrate-neon-http/publish.yml.svg?style=flat-square)](https://github.com/gtnorbeat/drizzle-migrate-neon-http/actions)
@@ -101,4 +101,4 @@ Found a bug? Want a feature? PRs are welcome and appreciated. 🤝
 
 ## License
 
-MPL 2.0 © [astrocat986](https://www.npmjs.com/~astrocat986) — see [LICENSE](LICENSE)
+MIT © [astrocat986](https://www.npmjs.com/~astrocat986) — see [LICENSE](LICENSE)

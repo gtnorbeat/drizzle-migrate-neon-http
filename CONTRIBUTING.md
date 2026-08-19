@@ -251,4 +251,4 @@ git push origin v0.1.6
 ## License
 
 By contributing you agree that your contributions are licensed under the
-[Mozilla Public License 2.0](LICENSE).
+[MIT License](LICENSE).
