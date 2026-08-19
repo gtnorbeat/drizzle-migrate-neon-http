@@ -6,7 +6,7 @@ hero:
   text: Drizzle migrations on Neon's HTTP driver
   tagline: One statement at a time. Zero local Postgres, zero emulation, zero compromises.
   image:
-    src: /neon-mark.svg
+    src: /dsp-logo.png
     alt: drizzle-migrate-neon-http
   actions:
     - theme: brand
