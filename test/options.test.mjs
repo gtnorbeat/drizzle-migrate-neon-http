@@ -87,3 +87,35 @@ test("parseOptions ignores unknown flags instead of failing", () => {
     assert.equal(opts.url, URL);
   });
 });
+
+test("parseOptions --strict sets strict without requiring anything else", () => {
+  withEnv(URL, () => {
+    assert.equal(parseOptions(["--strict"]).strict, true);
+    assert.equal(parseOptions([]).strict, false);
+  });
+});
+
+test("parseOptions --retries accepts = and space forms, defaulting to 0", () => {
+  withEnv(URL, () => {
+    assert.equal(parseOptions([]).retries, 0);
+    assert.equal(parseOptions(["--retries=3"]).retries, 3);
+    assert.equal(parseOptions(["--retries", "3"]).retries, 3);
+  });
+});
+
+test("parseOptions --timeout accepts = and space forms, defaulting to null", () => {
+  withEnv(URL, () => {
+    assert.equal(parseOptions([]).timeoutMs, null);
+    assert.equal(parseOptions(["--timeout=15000"]).timeoutMs, 15000);
+    assert.equal(parseOptions(["--timeout", "15000"]).timeoutMs, 15000);
+  });
+});
+
+test("parseOptions rejects invalid --retries and --timeout values", () => {
+  withEnv(URL, () => {
+    assert.throws(() => parseOptions(["--retries=abc"]), /--retries expects a non-negative integer/);
+    assert.throws(() => parseOptions(["--retries=-1"]), /--retries expects a non-negative integer/);
+    assert.throws(() => parseOptions(["--timeout=1.5"]), /--timeout expects a non-negative integer/);
+    assert.throws(() => parseOptions(["--timeout", "x"]), /--timeout expects a non-negative integer/);
+  });
+});

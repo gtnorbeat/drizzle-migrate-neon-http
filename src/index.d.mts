@@ -32,6 +32,12 @@ export interface RunMigrationsOptions {
   dryRun?: boolean;
   /** Pre-seeded set of already-applied file hashes. */
   alreadyApplied?: Set<string> | null;
+  /** Fail (instead of warn) when `.sql` files are missing from the journal. */
+  strict?: boolean;
+  /** Extra attempts after the first failure, with exponential backoff. */
+  retries?: number;
+  /** Per-query deadline in milliseconds; a stalled query then fails fast. */
+  timeoutMs?: number | null;
 }
 
 /**

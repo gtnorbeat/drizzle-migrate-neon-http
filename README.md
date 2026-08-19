@@ -43,7 +43,8 @@ falling back to the very thing serverless Postgres is supposed to remove.
 - Executes them via `sql.query(stmt)` — the explicit, string-accepting variant
 - Skips idempotent `object already exists` errors so partially-applied states heal
 - Records applied files by SHA-256 in `drizzle.__drizzle_migrations`
-- Ships a CLI (`--dry-run`, `--dir`) and an importable runner API
+- Warns (or fails with `--strict`) on `.sql` files missing from the journal
+- Ships a CLI (`--dry-run`, `--dir`, `--strict`, `--retries`, `--timeout`) and an importable runner API
 
 ## Requirements
 
@@ -67,6 +68,20 @@ drizzle-migrate-neon-http --dir ./drizzle --dry-run   # preview
 drizzle-migrate-neon-http --dir ./drizzle             # apply
 ```
 
+Hardening for CI:
+
+```bash
+# Fail fast if a migration file was generated but never registered in the
+# journal (it would otherwise be silently skipped).
+drizzle-migrate-neon-http --dir ./drizzle --strict
+
+# Retry transient HTTP failures instead of failing the whole run.
+drizzle-migrate-neon-http --dir ./drizzle --retries 3
+
+# Give each query a deadline so a stalled connection fails instead of hanging.
+drizzle-migrate-neon-http --dir ./drizzle --timeout 15000
+```
+
 Programmatic:
 
 ```js
@@ -74,8 +89,20 @@ import { neon } from "@neondatabase/serverless";
 import { runMigrations } from "drizzle-migrate-neon-http";
 
 const sql = neon(process.env.DATABASE_URL);
-await runMigrations({ sql, migrationsDir: "./drizzle" });
+await runMigrations({
+  sql,
+  migrationsDir: "./drizzle",
+  strict: true,
+  retries: 3,
+  timeoutMs: 15000,
+});
 ```
+
+> **Journal drift** — if a `NNNN_*.sql` file is present but missing from
+> `meta/_journal.json`, the runner never applies it (it only walks the journal).
+> By default this is surfaced as a warning; `--strict` turns it into a hard
+> failure so the mistake is caught in CI rather than as a missing column in
+> production.
 
 ## Wait — there's more
 
